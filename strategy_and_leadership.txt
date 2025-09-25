@@ -1,0 +1,31 @@
+Q1: Sprint velocity dropping due to flaky automation tests — approach:
+1. Triage & quantify:
+   - Run test reports to identify which tests are flaky, frequency, and failure patterns.
+   - Tag flaky tests in the suite and remove them temporarily from the main pipeline to stabilise velocity.
+2. Short-term fixes:
+   - Implement retry logic with caution and add clear logs.
+   - Increase timeouts where legitimate race conditions exist; add waits for stable locators.
+3. Root cause & long-term:
+   - Fix flaky tests by improving selectors, removing timing assumptions, mocking external services, or stabilising test data.
+   - Add better fixtures/setup/teardown, and use isolation (test data builders, sandbox environments).
+4. Process & ownership:
+   - Assign each flaky test to an engineer for a bugfix task.
+   - Add a "flaky tests" dashboard and a weekly target to reduce flakiness.
+5. Preventive measures:
+   - Improve CI gating policy: run smoke tests on PR, full suite on nightly with flaky tests flagged.
+   - Include test reliability in sprint objectives and code reviews.
+
+Q2: Two critical bugs in production missed in QA — approach:
+1. Immediate containment:
+   - Triage & assess impact, create hotfix branch, and coordinate deployment with stakeholders.
+   - Communicate transparently to client with ETA and mitigation steps.
+2. Root-cause & gap analysis:
+   - Perform a blameless post-mortem to identify why QA missed them: gaps could be environment parity, missing test cases, insufficient exploratory testing, data coverage, or CI gaps.
+3. Process improvements:
+   - Close test gaps: add missing test cases (unit/integration/e2e), and create regression tests for the bug.
+   - Improve environment parity (mirror prod data where safe), expand test data matrix, and include business scenarios in acceptance criteria.
+4. Team & governance:
+   - Update Definition of Done to include specific verification steps for critical flows.
+   - Add a release checklist, production smoke tests, and a short stabilization window post-deploy.
+5. Measurement:
+   - Track escaped defects metric and aim to reduce it; report improvements in retrospectives.
